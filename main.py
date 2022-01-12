@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 import sys
 from datetime import datetime
 from openpyxl import load_workbook
@@ -28,7 +29,7 @@ boards = browser.find_elements_by_class_name('new')
 
 num = int(input('0: 자유게시판 1: 비밀게시판 2: 졸업생게시판 3: 새내기게시판 4: 시사/이슈    '))
 whatIsBoard = boards[num]
-whatIsBoard.click()
+whatIsBoard.send_keys(Keys.ENTER)
 
 file = open("{0} {1}.txt".format(num, current_time),"w", encoding="utf8")
 
@@ -39,7 +40,7 @@ if num == 0:
             Title = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"#container > div.wrap.articles > article:nth-child({}) > a > h2".format(i))))
             Body = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR,"#container > div.wrap.articles > article:nth-child({})".format(i))))
 
-            if(Title.text.find('?') > 0 or Body.text.find('?') > 0):
+            if(Title.text.find('정통') > 0 or Body.text.find('정통?') > 0):
                 Body.click()
                 InTitle = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#container > div.wrap.articles > article > a > h2")))
                 InBody = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#container > div.wrap.articles > article > a > p")))
